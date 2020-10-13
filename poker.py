@@ -75,6 +75,7 @@ class Card:
     @property
     def value_index(self):
         return VALUES.index(self.value)
+
     @property
     def suit_index(self):
         return SUITS.index(self.suit)
@@ -236,39 +237,66 @@ def bestHand(cards):
                             best = test
     return best
 
-
-def postflopOdds(hand, flop):
-    hand_and_flop = hand.split(' ') + flop.split(' ')
-    deck = FULL_DECK
-    ranked_hands = []
-    for card in hand_and_flop:
-        deck.remove(card)
-    for i in range(len(deck)):
-        for j in range(i + 1, len(deck)):
-            bisect.insort(ranked_hands, bestHand(hand + ' ' + flop + ' ' + deck[i] + ' ' + deck[j]))
-    for hand in ranked_hands:
-        print(str(hand) + ",")
-
 def riverOdds(hand, board):
-    board_arr = board.split(' ')
-    deck = FULL_DECK
-    ranked_hands = []
+    board_arr = board.split(' ') + hand.split(' ')
+    river_deck = FULL_DECK[:]
+    your_best_hand = bestHand(hand + ' ' + board)
+    win, tie, loss = (0, 0, 0)
     for card in board_arr:
-        deck.remove(card)
-    for i in range(len(deck)):
-        for j in range(i + 1, len(deck)):
-            bisect.insort(ranked_hands, bestHand(board + ' ' + deck[i] + ' ' + deck[j]))
-    best_hand = bestHand(hand + ' ' + board)
-    print(best_hand)
-    print(bisect.bisect_left(ranked_hands, best_hand), bisect.bisect_right(ranked_hands, best_hand))
-    for hand in ranked_hands:
-        print(str(hand) + ",")
+        river_deck.remove(card)
+    for i in range(len(river_deck)):
+        for j in range(i + 1, len(river_deck)):
+            check_hand = bestHand(board + ' ' + river_deck[i] + ' ' + river_deck[j])
+            if your_best_hand > check_hand:
+                win += 1
+            elif your_best_hand == check_hand:
+                tie += 1
+            else:
+                loss += 1
+    return [win, tie, loss]
+
+def turnOdds(hand, board):
+    board_arr = board.split(' ') + hand.split(' ')
+    turn_deck = FULL_DECK[:]
+    win, tie, loss = (0, 0, 0)
+    for card in board_arr:
+        turn_deck.remove(card)
+    for i in range(len(turn_deck)):
+        odds = riverOdds(hand, board + ' ' + turn_deck[i])
+        win += odds[0]
+        tie += odds[1]
+        loss += odds[2]
+    return [win, tie, loss]
+
+def flopOdds(hand, flop):
+    board_arr = flop.split(' ') + hand.split(' ')
+    turn_deck = FULL_DECK[:]
+    win, tie, loss = (0, 0, 0)
+    for card in board_arr:
+        turn_deck.remove(card)
+    for i in range(len(turn_deck)):
+        odds = turnOdds(hand, flop + ' ' + turn_deck[i])
+        win += odds[0]
+        tie += odds[1]
+        loss += odds[2]
+    total = win + tie + loss
+    print(win, tie, loss, total)
+    print("Win: " + ' ' + str(round(win / total * 100, 2)))
+    print("Tie: " + ' ' + str(round(tie / total * 100, 2)))
+    print("Loss: " + ' ' + str(round(loss / total * 100, 2)))
+    return [win, tie, loss]
+
 h1 = PokerHand('4H 7S 9C AS AC')
 h2 = PokerHand('4H 7S 9C AC AS')
 
-riverOdds('AC AS', '2S 3C 4H 7S 9C')
+turnOdds('AC AS', '2S 3C 4H 7S')
 
 """
+riverOdds('AC AS', '2S 3C 4H 7S 9C')
+Loss:  13.69
+Tie:  0.56
+Win:  85.75
+
 ranked_hands = []
 for i in range(len(deck)):
     for j in range(i + 1, len(deck)):
