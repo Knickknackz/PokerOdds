@@ -15,6 +15,7 @@ HAND_RANKS = [
     'Royal Flush'
 ]
 
+
 card_strings = {
     'A': 'Ace',
     '2': 'Two',
@@ -32,10 +33,9 @@ card_strings = {
 }
 
 FULL_DECK = ['AS', '2S', '3S', '4S', '5S', '6S', '7S', '8S', '9S', 'TS', 'JS', 'QS', 'KS',
-                    'AD', '2D', '3D', '4D', '5D', '6D', '7D', '8D', '9D', 'TD', 'JD', 'QD', 'KD',
-                    'AH', '2H', '3H', '4H', '5H', '6H', '7H', '8H', '9H', 'TH', 'JH', 'QH', 'KH',
-                    'AC', '2C', '3C', '4C', '5C', '6C', '7C', '8C', '9C', 'TC', 'JC', 'QC', 'KC'
-                    ]
+             'AD', '2D', '3D', '4D', '5D', '6D', '7D', '8D', '9D', 'TD', 'JD', 'QD', 'KD',
+             'AH', '2H', '3H', '4H', '5H', '6H', '7H', '8H', '9H', 'TH', 'JH', 'QH', 'KH',
+             'AC', '2C', '3C', '4C', '5C', '6C', '7C', '8C', '9C', 'TC', 'JC', 'QC', 'KC']
 
 
 class Card:
@@ -224,7 +224,7 @@ class PokerHand:
 
 
 def bestHand(cards):
-    best = PokerHand('2S 3C 4H 5C 7H')
+    best = PokerHand('2S 3C 4H 5C 7H')  # Weakest Poker Hand
     cards = cards.split(' ')
     for one in range(len(cards)):
         for two in range(one + 1, len(cards)):
@@ -236,6 +236,7 @@ def bestHand(cards):
                         if test > best or test == best:
                             best = test
     return best
+
 
 def riverOdds(hand, board):
     board_arr = board.split(' ') + hand.split(' ')
@@ -255,6 +256,7 @@ def riverOdds(hand, board):
                 loss += 1
     return [win, tie, loss]
 
+
 def turnOdds(hand, board):
     board_arr = board.split(' ') + hand.split(' ')
     turn_deck = FULL_DECK[:]
@@ -267,6 +269,7 @@ def turnOdds(hand, board):
         tie += odds[1]
         loss += odds[2]
     return [win, tie, loss]
+
 
 def flopOdds(hand, flop):
     board_arr = flop.split(' ') + hand.split(' ')
@@ -286,10 +289,11 @@ def flopOdds(hand, flop):
     print("Loss: " + ' ' + str(round(loss / total * 100, 2)))
     return [win, tie, loss]
 
+
 h1 = PokerHand('4H 7S 9C AS AC')
 h2 = PokerHand('4H 7S 9C AC AS')
 
-turnOdds('AC AS', '2S 3C 4H 7S')
+riverOdds('AC AS', '2S 3C 4H 7S')
 
 """
 riverOdds('AC AS', '2S 3C 4H 7S 9C')
