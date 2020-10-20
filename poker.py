@@ -1,7 +1,7 @@
 import bisect
 import OddsObjects
-import PokerHand
-import HoldEmHand
+from PokerHand import PokerHand
+from HoldEmHand import HoldEmHand
 from Constants import FULL_DECK
 
 
@@ -73,22 +73,18 @@ def postFlopOdds(hand, flop):
 
 def preFlopOdds(hand, players = 2):
     hand = HoldEmHand(hand)
-    win, loss, expected = hand.rank
-    print('Odds for ' + str(hand) + ' before the Flop for a ' + str(players) + 'Player Round:')
+    win = hand.winChance(players)
+    loss = 100.0 - win
+    expected = round(win - loss, 1)
+    print('Odds for ' + str(hand) + ' before the Flop for a ' + str(players) + ' Player Round:')
     print('Chance to Win or Tie: ' + str(win) + '%')
     print('Chance to Lose:       ' + str(loss) + '%')
     print('Expected Value:       ' + str(expected) + '%')
 
-preFlopOdds('2S 5C')
+preFlopOdds('AS AC', 10)
 h1 = PokerHand('4H 7S 9C AS AC')
 h2 = PokerHand('4H 7S 9C AC AS')
 
-win, tie, loss = turnOdds('AC 6S', '2S 3C 4H 5D')
-total = win + tie + loss
-print(win, tie, loss, total)
-print("Win: " + ' ' + str(round(win / total * 100, 2)))
-print("Tie: " + ' ' + str(round(tie / total * 100, 2)))
-print("Loss: " + ' ' + str(round(loss / total * 100, 2)))
 """
 riverOdds('AC 6S', '2S 3C 4H 7S 9C')
 Loss:  13.69

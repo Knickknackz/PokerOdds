@@ -1,5 +1,5 @@
 from Constants import HAND_RANKS, VALUES
-import Card
+from Card import Card
 
 
 class PokerHand:

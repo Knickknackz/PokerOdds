@@ -1,5 +1,5 @@
 import OddsObjects
-import Card
+from Card import Card
 
 class HoldEmHand:
     def __init__(self, cards):
@@ -23,10 +23,11 @@ class HoldEmHand:
     def __iter__(self):
         return iter(self.cards)
 
-    @property
-    def rank(self):
+    def winChance(self, players):
         if self.cards[0].suit == self.cards[1].suit:
             suited = 's'
+        elif self.cards[0].value == self.cards[1].value:
+            suited = ''
         else:
-            suited = 'u'
-        return OddsObjects.twoPlayer[self.cards[0].value + self.cards[1].value + suited]
+            suited = 'o'
+        return OddsObjects.full[self.cards[1].value + self.cards[0].value + suited][players-2]
