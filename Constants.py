@@ -1,0 +1,35 @@
+VALUES = '23456789TJQKA'
+SUITS = 'HDSC'
+HAND_RANKS = [
+    'High Card',
+    'Pair',
+    'Two Pair',
+    'Three of a Kind',
+    'Straight',
+    'Flush',
+    'Full House',
+    'Four of a Kind',
+    'Straight Flush',
+    'Royal Flush'
+]
+
+card_strings = {
+    'A': 'Ace',
+    '2': 'Two',
+    '3': 'Three',
+    '4': 'Four',
+    '5': 'Five',
+    '6': 'Six',
+    '7': 'Seven',
+    '8': 'Eight',
+    '9': 'Nine',
+    'T': 'Ten',
+    'J': 'Jack',
+    'Q': 'Queen',
+    'K': 'King'
+}
+
+FULL_DECK = ['AS', '2S', '3S', '4S', '5S', '6S', '7S', '8S', '9S', 'TS', 'JS', 'QS', 'KS',
+             'AD', '2D', '3D', '4D', '5D', '6D', '7D', '8D', '9D', 'TD', 'JD', 'QD', 'KD',
+             'AH', '2H', '3H', '4H', '5H', '6H', '7H', '8H', '9H', 'TH', 'JH', 'QH', 'KH',
+             'AC', '2C', '3C', '4C', '5C', '6C', '7C', '8C', '9C', 'TC', 'JC', 'QC', 'KC']
